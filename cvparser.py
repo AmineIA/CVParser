@@ -9,7 +9,16 @@ import torch
 import numpy as np
 
 # Chargement du modèle NLP
-nlp = spacy.load('en_core_web_sm')
+def download_spacy_model():
+    try:
+        nlp = spacy.load('en_core_web_sm')
+    except OSError:
+        from spacy.cli import download
+        download('en_core_web_sm')
+        nlp = spacy.load('en_core_web_sm')
+    return nlp
+
+nlp = download_spacy_model()
 
 # Fonction pour extraire du texte à partir de différents formats de fichiers
 def extract_text(file):
